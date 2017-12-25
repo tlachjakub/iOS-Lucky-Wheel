@@ -13,6 +13,7 @@ class ViewController: UIViewController {
 	// Views and labels
 	@IBOutlet weak var imageView: UIImageView!
 	
+	
 	// Coordinates and angels
 	var startImageAngle:CGFloat = 0.0
 	var startTouchAngle:CGFloat = 0.0
@@ -20,38 +21,32 @@ class ViewController: UIViewController {
 	var lastAngle:CGFloat = 0.0
 	var winIndex: Int = 0
 	
-	var result = ""
 	
-	
+	// Data
 	let prizes = [
-		Prize(name: "Present", icon: "🎁"),
-		Prize(name: "Present", icon: "🎁"),
-		Prize(name: "Present", icon: "🎁")
+		Prize(name: "Present", icon: "🎁", angle: 0.0, count: 0, maxCount: 1, probability: 10),
+		Prize(name: "¥100", icon: "💴", angle: (2*CGFloat.pi/12), count: 0, maxCount: 1, probability: 10),
+		Prize(name: "You LOSE", icon: "💀", angle: (2*CGFloat.pi/12)*2, count: 0, maxCount: 0, probability: 10),
+		Prize(name: "Candy", icon: "🍭", angle: (2*CGFloat.pi/12)*3, count: 0, maxCount: 0, probability: 10),
+		Prize(name: "-5%", icon: "🏷", angle: (2*CGFloat.pi/12)*4, count: 0, maxCount: 0, probability: 10),
+		Prize(name: "¥1000", icon: "💴", angle: (2*CGFloat.pi/12)*5, count: 0, maxCount: 0, probability: 10),
+		Prize(name: "You LOSE", icon: "💀", angle: (2*CGFloat.pi/12)*6, count: 0, maxCount: 0, probability: 10),
+		Prize(name: "Present", icon: "🎁", angle: (2*CGFloat.pi/12)*7, count: 0, maxCount: 0, probability: 10),
+		Prize(name: "Decoration", icon: "🎄", angle: (2*CGFloat.pi/12)*8, count: 0, maxCount: 0, probability: 10),
+		Prize(name: "¥500", icon: "💴", angle: (2*CGFloat.pi/12)*9, count: 0, maxCount: 0, probability: 10),
+		Prize(name: "You LOSE", icon: "💀", angle: (2*CGFloat.pi/12)*10, count: 0, maxCount: 0, probability: 10),
+		Prize(name: "Donut", icon: "🍩", angle: (2*CGFloat.pi/12)*11, count: 0, maxCount: 0, probability: 10),
+		Prize(name: "All OUT", icon: "✘", angle: 0.0, count: 0, maxCount: 0, probability: 10)
 	]
 	
 	
-	// Arrays
-	let info = ["Present", "¥100", "You LOSE", "Candy", "-5%", "¥1000", "You LOSE",
-				"Present", "Decoration", "¥500", "You LOSE", "Donut", "All OUT"]
 	
-	let item = ["🎁", "💴", "💀", "🍭", "🏷", "💴", "💀",
-				"🎁", "🎄", "💴", "💀", "🍩", "✘"]
-	
-	let angle:[CGFloat] = [0.0, (2*CGFloat.pi/12), (2*CGFloat.pi/12)*2, (2*CGFloat.pi/12)*3, (2*CGFloat.pi/12)*4,
-						   (2*CGFloat.pi/12)*5, (2*CGFloat.pi/12)*6, (2*CGFloat.pi/12)*7, (2*CGFloat.pi/12)*8,
-						   (2*CGFloat.pi/12)*9, (2*CGFloat.pi/12)*10, (2*CGFloat.pi/12)*11, 0.0]
-	
-	var currentCount:[Int] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	
-	let maxCount:[Int] = [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// MARK: Inicialization
 	/////////////////////////////////////////////////////////////////////////////////////////
 	
 	override func viewDidLoad() {
-		
-		//prizes[0].name
 		
 		super.viewDidLoad()
 	}
@@ -75,7 +70,7 @@ class ViewController: UIViewController {
 		if let touch = touches.first {
 			
 			// Check the every element
-			checkTimer()
+			checkCount()
 			
 			
 			// Current Touch Angle
@@ -96,7 +91,6 @@ class ViewController: UIViewController {
 	// Move with wheel while moving with finger on the screen
 	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 		
-
 		if let touch = touches.first {
 			
 			// Current Touch Angle
@@ -139,15 +133,20 @@ class ViewController: UIViewController {
 			rotateAnimation.fromValue = start
 			
 			//if delta < 0 { rotateAnimation.toValue = angle[winIndex] * -1 }
-			rotateAnimation.toValue = angle[winIndex]
-			currentCount[winIndex] += 1
+			rotateAnimation.toValue = prizes[winIndex].angle
 			rotateAnimation.duration = min(max(Double(delta * 10), 4), 8)
 			rotateAnimation.timingFunction = CAMediaTimingFunction(controlPoints: 0.0, 0.5, 0.3, 1)
 			rotateAnimation.delegate = self
 			
 			self.imageView.layer.add(rotateAnimation, forKey: nil)
 			
-			print("timer winIndex: \(currentCount[winIndex])")
+			if winIndex == 2 || winIndex == 6 || winIndex == 10 {
+				print("LOSE")
+			} else {
+				prizes[winIndex].count += 1
+			}
+			
+			print("timer winIndex: \(prizes[winIndex].count)")
 			//print("delta: \(delta * 100)")
 
 		}
@@ -157,8 +156,8 @@ class ViewController: UIViewController {
 	
 	
 	// Check for random value
-	func checkTimer() {
-		if checkTimerAll() == false {
+	func checkCount() {
+		if checkCountOfAll() == false {
 			winIndex = 12
 			print("\(winIndex) out")
 		} else {
@@ -166,7 +165,7 @@ class ViewController: UIViewController {
 				winIndex = Int(arc4random_uniform(12))
 				print("\(winIndex) repeat")
 			}
-				while currentCount[winIndex] == maxCount[winIndex]
+				while prizes[winIndex].count == prizes[winIndex].maxCount
 		}
 		print("\(winIndex) final")
 	}
@@ -175,23 +174,25 @@ class ViewController: UIViewController {
 	
 	
 	// Check condition for all elements
-	func checkTimerAll() -> Bool {
+	func checkCountOfAll() -> Bool {
 		
 		// Loop the whole array and compare with max values of timer
 		var counter = 0
-		for number in currentCount {
-			if currentCount[number] == maxCount[number] {
-				counter = counter + 1
+		for item in prizes {
+			if item.count == item.maxCount {
+				counter += 1
 			} else {
 				return true
 			}
 		}
 		
+		
 		// If all elements are OUT return false
-		if counter == currentCount.count {
+		if counter != prizes.count {
+			return true
+		} else {
 			return false
 		}
-		return true
 	}
 
 	
@@ -223,20 +224,24 @@ extension ViewController: CAAnimationDelegate {
 	
 	func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
 		
+		// Deactivate animation
 		UIView.setAnimationsEnabled(false)
+		
 		
 		// Start the user interaction after the wheel stops
 		self.view.isUserInteractionEnabled = true
 		
+		
 		// Rotate the angle
-		rotateAngle(angle: CGFloat(angle[winIndex]))
+		rotateAngle(angle: CGFloat(prizes[winIndex].angle))
 		
 		
+		// Wait and activate animation again
 		RUTools.runAfter(0.01) {
 			UIView.setAnimationsEnabled(true)
 
 			// Open next WinViewController
-			WinViewController.show(item: self.item[self.winIndex], info: self.info[self.winIndex])
+			WinViewController.show(icon: self.prizes[self.winIndex].icon, name: self.prizes[self.winIndex].name)
 		}
 	}
 	

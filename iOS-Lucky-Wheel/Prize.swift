@@ -11,16 +11,23 @@ import UIKit
 class Prize: NSObject {
 
 	let name: String
-	var icon: String
+	let icon: String
+	let angle: CGFloat
+	var count: Int
+	var maxCount: Int
+	var probability: Int
 	
 	
-	
-	init(name: String, icon: String) {
+	init(name: String, icon: String, angle: CGFloat, count: Int, maxCount: Int, probability: Int) {
+		
 		self.name = name
 		self.icon = icon
+		self.angle = angle
+		self.count = count
+		self.maxCount = maxCount
+		self.probability = probability
+		
 		super.init()
 	}
-	
-	
-	
+
 }

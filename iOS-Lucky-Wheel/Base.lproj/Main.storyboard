@@ -186,9 +186,9 @@
                         <viewLayoutGuide key="safeArea" id="OUA-mO-jGM"/>
                     </view>
                     <connections>
+                        <outlet property="iconLabel" destination="oGf-5e-Bef" id="xQm-S1-gDT"/>
                         <outlet property="imageView" destination="rT0-Tg-70N" id="xJo-RH-9Wc"/>
-                        <outlet property="infoLabel" destination="few-pz-Ysd" id="tpZ-E9-PTa"/>
-                        <outlet property="itemLabel" destination="oGf-5e-Bef" id="xQm-S1-gDT"/>
+                        <outlet property="nameLabel" destination="few-pz-Ysd" id="tpZ-E9-PTa"/>
                         <outlet property="visualEffectView" destination="kB4-cY-hlx" id="g6S-qV-9pO"/>
                         <outlet property="winView" destination="sZf-Qk-b8s" id="jkg-WG-eJ7"/>
                     </connections>

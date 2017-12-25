@@ -13,8 +13,8 @@ class WinViewController: UIViewController {
 	
 	// Views and labels
 	@IBOutlet weak var winView: UIView!
-	@IBOutlet weak var infoLabel: UILabel!
-	@IBOutlet weak var itemLabel: UILabel!
+	@IBOutlet weak var nameLabel: UILabel!
+	@IBOutlet weak var iconLabel: UILabel!
 	@IBOutlet weak var imageView: UIImageView!
 	
 	
@@ -22,23 +22,20 @@ class WinViewController: UIViewController {
 	@IBOutlet weak var visualEffectView: UIVisualEffectView!
 	var effect:UIVisualEffect!
 	
-	var item = ""
-	var info = ""
+	var icon = ""
+	var name = ""
 	
 	
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// MARK: Inicialization
 	/////////////////////////////////////////////////////////////////////////////////////////
 	
-	class func show(item: String, info: String) {
+	class func show(icon: String, name: String) {
 		if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WinViewController") as? WinViewController {
-			controller.item = item
-			controller.info = info
-			//UIViewController.ruPushOrPresent(controller, animated: true)
-			//controller.animateIn()
-			
+			controller.icon = icon
+			controller.name = name
+
 			UIViewController.ruPresent(controller, animated: false)
-			//controller.animateIn()
 			print("show")
 		}
 	}
@@ -47,8 +44,8 @@ class WinViewController: UIViewController {
 		super.viewDidLoad()
 		//print("viewDidLoad winViewController")
 		
-		itemLabel.text = item
-		infoLabel.text = info
+		iconLabel.text = icon
+		nameLabel.text = name
 		
 		// Disable blur effect
 		effect = visualEffectView.effect
@@ -60,13 +57,14 @@ class WinViewController: UIViewController {
 		
 		// Init
 		self.view.alpha = 0
-		winView.transform = CGAffineTransform.init(scaleX: 0.7, y: 0.7)
 		winView.alpha = 0
+		imageView.alpha = 0
+		winView.transform = CGAffineTransform.init(scaleX: 0.7, y: 0.7)
+		imageView.transform = CGAffineTransform.init(scaleX: 0.7, y: 0.7)
 		self.visualEffectView.effect = self.effect
 		
 		
 		// Animate the view controller
-		
 		RUTools.runAfter(0.2) {
 			self.animateIn()
 		}
@@ -84,32 +82,20 @@ class WinViewController: UIViewController {
 	
 	
 	
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// MARK: Animation
+	/////////////////////////////////////////////////////////////////////////////////////////
+	
 	// Animate pop-up winView
 	func animateIn() {
 		
-		
-		//winView.center = self.view.center
-
-		//imageView.alpha = 0
-	
-		
-		
-		UIView.animate(withDuration: 0.3, animations: {
+		UIView.animate(withDuration: 0.4, animations: {
+			self.winView.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+			self.imageView.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+			self.winView.alpha = 1
+			self.imageView.alpha = 1
 			self.view.alpha = 1
-		}) { (c) in
-			UIView.animate(withDuration: 0.3, animations: {
-				
-				self.winView.alpha = 1
-				//self.imageView.alpha = 1
-				self.winView.transform = CGAffineTransform.identity
-				
-				//print("animateIn")
-			})
-			
-			
-		}
-		
-		
+		})
 	}
 	
 	
@@ -120,10 +106,11 @@ class WinViewController: UIViewController {
 		
 		UIView.animate(withDuration: 0.5, animations: {
 			self.winView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+			self.imageView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
 			self.winView.alpha = 0
+			self.imageView.alpha = 0
 			self.view.alpha = 0
 			
-			//print("animateOut")
 		}) { (success:Bool) in
 			self.dismiss(animated: false, completion: nil)
 		}
