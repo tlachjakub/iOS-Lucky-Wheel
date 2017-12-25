@@ -11,6 +11,7 @@
 		3D180CC21FEA2E920080D479 /* Calculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D180CC11FEA2E920080D479 /* Calculations.swift */; };
 		3D180CC51FEA41D00080D479 /* RUUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D180CC41FEA41D00080D479 /* RUUIViewController.swift */; };
 		3D180CC71FEA42B60080D479 /* RUTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D180CC61FEA42B60080D479 /* RUTools.swift */; };
+		3D19B0AC1FF0D77C0041EB38 /* Prize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D19B0AB1FF0D77C0041EB38 /* Prize.swift */; };
 		3D6A499A1FE120FF002EF060 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A49991FE120FF002EF060 /* Extensions.swift */; };
 		3DA920681FDE187F008D13E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA920671FDE187F008D13E6 /* AppDelegate.swift */; };
 		3DA9206A1FDE187F008D13E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA920691FDE187F008D13E6 /* ViewController.swift */; };
@@ -24,6 +25,7 @@
 		3D180CC11FEA2E920080D479 /* Calculations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculations.swift; sourceTree = "<group>"; };
 		3D180CC41FEA41D00080D479 /* RUUIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RUUIViewController.swift; sourceTree = "<group>"; };
 		3D180CC61FEA42B60080D479 /* RUTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RUTools.swift; sourceTree = "<group>"; };
+		3D19B0AB1FF0D77C0041EB38 /* Prize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prize.swift; sourceTree = "<group>"; };
 		3D6A49991FE120FF002EF060 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3DA920641FDE187F008D13E6 /* iOS-Lucky-Wheel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-Lucky-Wheel.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DA920671FDE187F008D13E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				3DA920671FDE187F008D13E6 /* AppDelegate.swift */,
 				3D180CBF1FE9FA520080D479 /* WinViewController.swift */,
 				3DA920691FDE187F008D13E6 /* ViewController.swift */,
+				3D19B0AB1FF0D77C0041EB38 /* Prize.swift */,
 				3DA9206B1FDE187F008D13E6 /* Main.storyboard */,
 				3DA920701FDE187F008D13E6 /* LaunchScreen.storyboard */,
 				3D180CC31FEA349F0080D479 /* Tools */,
@@ -159,6 +162,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D19B0AC1FF0D77C0041EB38 /* Prize.swift in Sources */,
 				3D180CC01FE9FA520080D479 /* WinViewController.swift in Sources */,
 				3D180CC21FEA2E920080D479 /* Calculations.swift in Sources */,
 				3D180CC71FEA42B60080D479 /* RUTools.swift in Sources */,

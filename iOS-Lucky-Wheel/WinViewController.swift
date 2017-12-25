@@ -57,8 +57,19 @@ class WinViewController: UIViewController {
 		// Add corners to the winView
 		winView.layer.cornerRadius = 40
 		
+		
+		// Init
+		self.view.alpha = 0
+		winView.transform = CGAffineTransform.init(scaleX: 0.7, y: 0.7)
+		winView.alpha = 0
+		self.visualEffectView.effect = self.effect
+		
+		
 		// Animate the view controller
-		animateIn()
+		
+		RUTools.runAfter(0.2) {
+			self.animateIn()
+		}
 	}
 	
 	
@@ -76,20 +87,28 @@ class WinViewController: UIViewController {
 	// Animate pop-up winView
 	func animateIn() {
 		
-		self.view.addSubview(winView)
-		winView.center = self.view.center
-		winView.transform = CGAffineTransform.init(scaleX: 0.7, y: 0.7)
-		winView.alpha = 0
-		imageView.alpha = 0
 		
-		UIView.animate(withDuration: 2.0, delay: 2.2, animations: {
-			self.visualEffectView.effect = self.effect
-			self.winView.alpha = 1
-			self.imageView.alpha = 1
-			self.winView.transform = CGAffineTransform.identity
+		//winView.center = self.view.center
+
+		//imageView.alpha = 0
+	
+		
+		
+		UIView.animate(withDuration: 0.3, animations: {
+			self.view.alpha = 1
+		}) { (c) in
+			UIView.animate(withDuration: 0.3, animations: {
+				
+				self.winView.alpha = 1
+				//self.imageView.alpha = 1
+				self.winView.transform = CGAffineTransform.identity
+				
+				//print("animateIn")
+			})
 			
-			//print("animateIn")
-		})
+			
+		}
+		
 		
 	}
 	
@@ -99,16 +118,14 @@ class WinViewController: UIViewController {
 	// Animate pop-out winView
 	func animateOut() {
 		
-		UIView.animate(withDuration: 0.3, animations: {
+		UIView.animate(withDuration: 0.5, animations: {
 			self.winView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
 			self.winView.alpha = 0
-			self.imageView.alpha = 0
-			
-			self.visualEffectView.effect = nil
+			self.view.alpha = 0
 			
 			//print("animateOut")
 		}) { (success:Bool) in
-			self.dismiss(animated: true, completion: nil)
+			self.dismiss(animated: false, completion: nil)
 		}
 	}
 	

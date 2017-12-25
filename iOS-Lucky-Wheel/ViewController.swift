@@ -22,6 +22,14 @@ class ViewController: UIViewController {
 	
 	var result = ""
 	
+	
+	let prizes = [
+		Prize(name: "Present", icon: "🎁"),
+		Prize(name: "Present", icon: "🎁"),
+		Prize(name: "Present", icon: "🎁")
+	]
+	
+	
 	// Arrays
 	let info = ["Present", "¥100", "You LOSE", "Candy", "-5%", "¥1000", "You LOSE",
 				"Present", "Decoration", "¥500", "You LOSE", "Donut", "All OUT"]
@@ -33,15 +41,17 @@ class ViewController: UIViewController {
 						   (2*CGFloat.pi/12)*5, (2*CGFloat.pi/12)*6, (2*CGFloat.pi/12)*7, (2*CGFloat.pi/12)*8,
 						   (2*CGFloat.pi/12)*9, (2*CGFloat.pi/12)*10, (2*CGFloat.pi/12)*11, 0.0]
 	
-	var timer:[Int] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	var currentCount:[Int] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	
-	let timerMax:[Int] = [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	let maxCount:[Int] = [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// MARK: Inicialization
 	/////////////////////////////////////////////////////////////////////////////////////////
 	
 	override func viewDidLoad() {
+		
+		//prizes[0].name
 		
 		super.viewDidLoad()
 	}
@@ -86,6 +96,7 @@ class ViewController: UIViewController {
 	// Move with wheel while moving with finger on the screen
 	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 		
+
 		if let touch = touches.first {
 			
 			// Current Touch Angle
@@ -129,14 +140,14 @@ class ViewController: UIViewController {
 			
 			//if delta < 0 { rotateAnimation.toValue = angle[winIndex] * -1 }
 			rotateAnimation.toValue = angle[winIndex]
-			timer[winIndex] += 1
+			currentCount[winIndex] += 1
 			rotateAnimation.duration = min(max(Double(delta * 10), 4), 8)
 			rotateAnimation.timingFunction = CAMediaTimingFunction(controlPoints: 0.0, 0.5, 0.3, 1)
 			rotateAnimation.delegate = self
 			
 			self.imageView.layer.add(rotateAnimation, forKey: nil)
 			
-			print("timer winIndex: \(timer[winIndex])")
+			print("timer winIndex: \(currentCount[winIndex])")
 			//print("delta: \(delta * 100)")
 
 		}
@@ -155,7 +166,7 @@ class ViewController: UIViewController {
 				winIndex = Int(arc4random_uniform(12))
 				print("\(winIndex) repeat")
 			}
-				while timer[winIndex] == timerMax[winIndex]
+				while currentCount[winIndex] == maxCount[winIndex]
 		}
 		print("\(winIndex) final")
 	}
@@ -168,8 +179,8 @@ class ViewController: UIViewController {
 		
 		// Loop the whole array and compare with max values of timer
 		var counter = 0
-		for number in timer {
-			if timer[number] == timerMax[number] {
+		for number in currentCount {
+			if currentCount[number] == maxCount[number] {
 				counter = counter + 1
 			} else {
 				return true
@@ -177,7 +188,7 @@ class ViewController: UIViewController {
 		}
 		
 		// If all elements are OUT return false
-		if counter == timer.count {
+		if counter == currentCount.count {
 			return false
 		}
 		return true
@@ -212,14 +223,21 @@ extension ViewController: CAAnimationDelegate {
 	
 	func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
 		
-		// Open next WinViewController
-		WinViewController.show(item: item[winIndex], info: info[winIndex])
+		UIView.setAnimationsEnabled(false)
 		
 		// Start the user interaction after the wheel stops
 		self.view.isUserInteractionEnabled = true
 		
 		// Rotate the angle
 		rotateAngle(angle: CGFloat(angle[winIndex]))
+		
+		
+		RUTools.runAfter(0.01) {
+			UIView.setAnimationsEnabled(true)
+
+			// Open next WinViewController
+			WinViewController.show(item: self.item[self.winIndex], info: self.info[self.winIndex])
+		}
 	}
 	
 
