@@ -35,13 +35,17 @@ class WinViewController: UIViewController {
 			controller.item = item
 			controller.info = info
 			//UIViewController.ruPushOrPresent(controller, animated: true)
-			UIViewController.ruPresent(controller, animated: true)
+			//controller.animateIn()
 			
+			UIViewController.ruPresent(controller, animated: false)
+			//controller.animateIn()
+			print("show")
 		}
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		//print("viewDidLoad winViewController")
 		
 		itemLabel.text = item
 		infoLabel.text = info
@@ -55,7 +59,6 @@ class WinViewController: UIViewController {
 		
 		// Animate the view controller
 		animateIn()
-		print("viewDidLoad winViewController")
 	}
 	
 	
@@ -75,17 +78,19 @@ class WinViewController: UIViewController {
 		
 		self.view.addSubview(winView)
 		winView.center = self.view.center
-		
 		winView.transform = CGAffineTransform.init(scaleX: 0.7, y: 0.7)
 		winView.alpha = 0
 		imageView.alpha = 0
 		
-		UIView.animate(withDuration: 0.3, animations: {
+		UIView.animate(withDuration: 2.0, delay: 2.2, animations: {
 			self.visualEffectView.effect = self.effect
 			self.winView.alpha = 1
 			self.imageView.alpha = 1
 			self.winView.transform = CGAffineTransform.identity
+			
+			//print("animateIn")
 		})
+		
 	}
 	
 	
@@ -101,6 +106,7 @@ class WinViewController: UIViewController {
 			
 			self.visualEffectView.effect = nil
 			
+			//print("animateOut")
 		}) { (success:Bool) in
 			self.dismiss(animated: true, completion: nil)
 		}
@@ -114,4 +120,6 @@ class WinViewController: UIViewController {
 		animateOut()
 	}
 }
+
+
 

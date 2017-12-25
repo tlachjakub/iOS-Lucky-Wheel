@@ -24,17 +24,18 @@ class ViewController: UIViewController {
 	
 	// Arrays
 	let info = ["Present", "¥100", "You LOSE", "Candy", "-5%", "¥1000", "You LOSE",
-				"Present", "Decoration", "¥500", "You LOSE", "Donut", "OUT"]
+				"Present", "Decoration", "¥500", "You LOSE", "Donut", "All OUT"]
 	
 	let item = ["🎁", "💴", "💀", "🍭", "🏷", "💴", "💀",
 				"🎁", "🎄", "💴", "💀", "🍩", "✘"]
 	
 	let angle:[CGFloat] = [0.0, (2*CGFloat.pi/12), (2*CGFloat.pi/12)*2, (2*CGFloat.pi/12)*3, (2*CGFloat.pi/12)*4,
 						   (2*CGFloat.pi/12)*5, (2*CGFloat.pi/12)*6, (2*CGFloat.pi/12)*7, (2*CGFloat.pi/12)*8,
-						   (2*CGFloat.pi/12)*9, (2*CGFloat.pi/12)*10, (2*CGFloat.pi/12)*11]
+						   (2*CGFloat.pi/12)*9, (2*CGFloat.pi/12)*10, (2*CGFloat.pi/12)*11, 0.0]
 	
+	var timer:[Int] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	
-	
+	let timerMax:[Int] = [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// MARK: Inicialization
@@ -63,6 +64,10 @@ class ViewController: UIViewController {
 		
 		if let touch = touches.first {
 			
+			// Check the every element
+			checkTimer()
+			
+			
 			// Current Touch Angle
 			let position = touch.preciseLocation(in: self.view)
 			let center = imageView.center
@@ -88,7 +93,8 @@ class ViewController: UIViewController {
 			let center = imageView.center
 			moveTouchAngle = center.angleRadPositiveToPoint(position)
 			
-			print("Current angle: \(moveTouchAngle)")
+			
+			//print("Current angle: \(moveTouchAngle)")
 			rotateAngle(angle: startImageAngle + (moveTouchAngle - startTouchAngle))
 		}
 	}
@@ -117,26 +123,65 @@ class ViewController: UIViewController {
 			let start = startImageAngle + (moveTouchAngle - startTouchAngle)
 			lastAngle = start + delta
 			
-			// Random number between 0 and 11 for array with angels
-			winIndex = Int(arc4random_uniform(12))
 			
 			let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
 			rotateAnimation.fromValue = start
 			
 			//if delta < 0 { rotateAnimation.toValue = angle[winIndex] * -1 }
 			rotateAnimation.toValue = angle[winIndex]
+			timer[winIndex] += 1
 			rotateAnimation.duration = min(max(Double(delta * 10), 4), 8)
 			rotateAnimation.timingFunction = CAMediaTimingFunction(controlPoints: 0.0, 0.5, 0.3, 1)
 			rotateAnimation.delegate = self
 			
 			self.imageView.layer.add(rotateAnimation, forKey: nil)
 			
-			print("winIndex: \(winIndex)")
-			print("delta: \(delta * 100)")
+			print("timer winIndex: \(timer[winIndex])")
+			//print("delta: \(delta * 100)")
 
 		}
 	}
 	
+	
+	
+	
+	// Check for random value
+	func checkTimer() {
+		if checkTimerAll() == false {
+			winIndex = 12
+			print("\(winIndex) out")
+		} else {
+			repeat {
+				winIndex = Int(arc4random_uniform(12))
+				print("\(winIndex) repeat")
+			}
+				while timer[winIndex] == timerMax[winIndex]
+		}
+		print("\(winIndex) final")
+	}
+	
+	
+	
+	
+	// Check condition for all elements
+	func checkTimerAll() -> Bool {
+		
+		// Loop the whole array and compare with max values of timer
+		var counter = 0
+		for number in timer {
+			if timer[number] == timerMax[number] {
+				counter = counter + 1
+			} else {
+				return true
+			}
+		}
+		
+		// If all elements are OUT return false
+		if counter == timer.count {
+			return false
+		}
+		return true
+	}
 
 	
 	
