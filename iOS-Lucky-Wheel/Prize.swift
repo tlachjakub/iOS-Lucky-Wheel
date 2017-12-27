@@ -10,6 +10,7 @@ import UIKit
 
 class Prize: NSObject {
 
+	let index: Int
 	let name: String
 	let icon: String
 	let angle: CGFloat
@@ -18,8 +19,9 @@ class Prize: NSObject {
 	var probability: Int
 	
 	
-	init(name: String, icon: String, angle: CGFloat, count: Int, maxCount: Int, probability: Int) {
+	init(index: Int, name: String, icon: String, angle: CGFloat, count: Int, maxCount: Int, probability: Int) {
 		
+		self.index = index
 		self.name = name
 		self.icon = icon
 		self.angle = angle
