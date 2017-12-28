@@ -42,14 +42,15 @@ class WinViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		//print("viewDidLoad winViewController")
 		
 		iconLabel.text = icon
 		nameLabel.text = name
 		
+		
 		// Disable blur effect
 		effect = visualEffectView.effect
 		visualEffectView.effect = nil
+		
 		
 		// Add corners to the winView
 		winView.layer.cornerRadius = 40

@@ -28,16 +28,16 @@ class ViewController: UIViewController {
 	let prizes = [
 		Prize(index: 0, name: "1x Present", icon: "🎁", angle: 0.0, count: 0, maxCount: 10, probability: 100),
 		Prize(index: 1, name: "¥100", icon: "💴", angle: (2*CGFloat.pi/12), count: 0, maxCount: 5, probability: 50),
-		Prize(index: 2, name: "You LOSE", icon: "💀", angle: (2*CGFloat.pi/12)*2, count: 0, maxCount: 1, probability: 300),
-		Prize(index: 3, name: "1x Candy", icon: "🍭", angle: (2*CGFloat.pi/12)*3, count: 0, maxCount: 25, probability: 500),
+		Prize(index: 2, name: "You LOSE", icon: "💀", angle: (2*CGFloat.pi/12)*2, count: 0, maxCount: 1, probability: 250),
+		Prize(index: 3, name: "1x Candy", icon: "🍭", angle: (2*CGFloat.pi/12)*3, count: 0, maxCount: 25, probability: 300),
 		Prize(index: 4, name: "-5%", icon: "🏷", angle: (2*CGFloat.pi/12)*4, count: 0, maxCount: 10, probability: 100),
 		Prize(index: 5, name: "¥1000", icon: "💴", angle: (2*CGFloat.pi/12)*5, count: 0, maxCount: 5, probability: 50),
-		Prize(index: 6, name: "You LOSE", icon: "💀", angle: (2*CGFloat.pi/12)*6, count: 0, maxCount: 1, probability: 300),
+		Prize(index: 6, name: "You LOSE", icon: "💀", angle: (2*CGFloat.pi/12)*6, count: 0, maxCount: 1, probability: 250),
 		Prize(index: 7, name: "1x Present", icon: "🎁", angle: (2*CGFloat.pi/12)*7, count: 0, maxCount: 10, probability: 100),
 		Prize(index: 8, name: "1x Decoration", icon: "🎄", angle: (2*CGFloat.pi/12)*8, count: 0, maxCount: 15, probability: 250),
 		Prize(index: 9, name: "¥500", icon: "💴", angle: (2*CGFloat.pi/12)*9, count: 0, maxCount: 5, probability: 50),
-		Prize(index: 10, name: "You LOSE", icon: "💀", angle: (2*CGFloat.pi/12)*10, count: 0, maxCount: 1, probability: 300),
-		Prize(index: 11, name: "1x Donut", icon: "🍩", angle: (2*CGFloat.pi/12)*11, count: 0, maxCount: 25, probability: 500)
+		Prize(index: 10, name: "You LOSE", icon: "💀", angle: (2*CGFloat.pi/12)*10, count: 0, maxCount: 1, probability: 250),
+		Prize(index: 11, name: "1x Donut", icon: "🍩", angle: (2*CGFloat.pi/12)*11, count: 0, maxCount: 25, probability: 300)
 	]
 	
 
@@ -195,7 +195,7 @@ class ViewController: UIViewController {
 		for item in newPrizes {
 			count += item.probability
 
-			// Fount Win Prize
+			// Found Win Prize
 			if prob <= count {
 				if item.icon != "💀" {
 					item.count += 1
@@ -208,6 +208,8 @@ class ViewController: UIViewController {
 		// Didn't find Prize, Lose
 		return prizes[2]
 	}
+	
+	
 	
 	
 	// Rotate by angle
@@ -244,15 +246,16 @@ extension ViewController: CAAnimationDelegate {
 		self.view.isUserInteractionEnabled = true
 		
 
-		
 		// Wait and activate animation again
 		RUTools.runAfter(0.1) {
 
+			
 			// Reset View
 			RUTools.instantTransaction {
 				self.imageView.layer.removeAllAnimations()
 				self.rotateAngle(angle: CGFloat(prize.angle))
 			}
+			
 			
 			// Open next WinViewController
 			WinViewController.show(icon: prize.icon, name: prize.name)
